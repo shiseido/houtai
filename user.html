@@ -1,0 +1,707 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    <meta name="keywords" content="jquery,ui,easy,easyui,web">
+    <meta name="description" content="easyui help you build your web page easily!">
+    <title>设备ID</title>
+    <link rel="stylesheet" type="text/css" href="themes/default/easyui.css">
+    <link rel="stylesheet" type="text/css" href="themes/icon.css">
+    <link rel="stylesheet" type="text/css" href="css/demo.css">
+    <script type="text/javascript" src="js/jquery.min.js"></script>
+    <script type="text/javascript" src="js/jquery.easyui.min.js"></script>
+    <script type="text/javascript">
+        $(function(){
+            $('#tt').datagrid({
+                title:'用户管理',
+                iconCls:'icon-edit',
+                width:"100%",
+                height:"auto",
+                singleSelect:true,
+                idField:'',
+                url:'js/Class.json',
+                columns:[[
+                    {field:'id',title:'编号',width:"20%",editor:'textbox'},
+
+                    {field:'class',title:'组名',width:"30%",editor:'textbox'},
+
+                    {field:'action',title:'操作',width:"50%",align:'center',
+                        formatter:function(value,row,index){
+                            if (row.editing){
+                                var s = '<a href="#" onclick="saverow(this)">保存</a> ';
+                                var c = '<a href="#" onclick="cancelrow(this)">取消</a>';
+                                return s+c;
+                            } else {
+                                var e = '<a href="#" onclick="editrow(this)">编辑</a> ';
+                                var d = '<a href="#" onclick="deleterow(this)">删除</a>';
+                                return e+d;
+                            }
+                        }
+                    }
+
+                ]],
+                onBeforeEdit:function(index,row){
+                    row.editing = true;
+                    updateActions(index);
+                },
+                onAfterEdit:function(index,row){
+                    row.editing = false;
+                    updateActions(index);
+                },
+                onCancelEdit:function(index,row){
+                    row.editing = false;
+                    updateActions(index);
+                }
+            });
+        });
+
+        function updateActions(index){
+            $('#tt').datagrid('updateRow',{
+                index: index,
+                row:{}
+            });
+        }
+        function getRowIndex(target){
+            var tr = $(target).closest('tr.datagrid-row');
+            return parseInt(tr.attr('datagrid-row-index'));
+        }
+        function editrow(target){
+            $('#tt').datagrid('beginEdit', getRowIndex(target));
+        }
+        function deleterow(target){
+            $.messager.confirm('确认','确定修改?',function(r){
+                if (r){
+                    $('#tt').datagrid('deleteRow', getRowIndex(target));
+                }
+            });
+        }
+
+        function saverow(target){
+            $('#tt').datagrid('endEdit', getRowIndex(target));
+        }
+        function cancelrow(target){
+            $('#tt').datagrid('cancelEdit', getRowIndex(target));
+        }
+        function insert(){
+            var row = $('#tt').datagrid('getSelected');
+            if (row){
+                var index = $('#tt').datagrid('getRowIndex', row);
+            } else {
+                index = 0;
+            }
+            $('#tt').datagrid('insertRow', {
+                index: index,
+                row:{
+                    status:'p'
+                }
+            });
+
+            $('#tt').datagrid('selectRow',index);
+            $('#tt').datagrid('beginEdit',index);
+        }
+        $(function(){
+            $('#dg').datagrid({
+                title:'用户管理',
+                iconCls:'icon-edit',
+                width:"100%",
+                height:"auto",
+                singleSelect:true,
+                idField:'',
+                url:'js/guanli.json',
+                columns:[[
+                    {field:'id',title:'编号',width:"5%",editor:'textbox'},
+                    {field:'name',title:'用户名',width:"15%",editor:'textbox'},
+                    {field:'password',title:'密码',width:"15%",editor:'textbox'},
+                    {field:'class',title:'组名',width:"15%",editor:'textbox'},
+                    {field:'phone',title:'电话',width:"15%",editor:'numberbox'},
+                    {field:'device',title:'设备号',width:"15%",editor:'textbox'},
+                    {field:'action',title:'操作',width:"20%",align:'center',
+                        formatter:function(value,row,index){
+                            if (row.editing){
+                                var s = '<a href="#" onclick="saverow1(this)">保存</a> ';
+                                var c = '<a href="#" onclick="cancelrow1(this)">取消</a>';
+                                return s+c;
+                            } else {
+                                var e = '<a href="#" onclick="editrow1(this)">编辑</a> ';
+                                var d = '<a href="#" onclick="deleterow1(this)">删除</a>';
+                                return e+d;
+                            }
+                        }
+                    }
+
+                ]],
+                onBeforeEdit:function(index,row){
+                    row.editing = true;
+                    updateActions(index);
+                },
+                onAfterEdit:function(index,row){
+                    row.editing = false;
+                    updateActions(index);
+                },
+                onCancelEdit:function(index,row){
+                    row.editing = false;
+                    updateActions(index);
+                }
+            });
+        });
+
+        function updateActions1(index){
+            $('#dg').datagrid('updateRow',{
+                index: index,
+                row:{}
+            });
+        }
+        function getRowIndex1(target){
+            var tr = $(target).closest('tr.datagrid-row');
+            return parseInt(tr.attr('datagrid-row-index'));
+        }
+        function editrow1(target){
+            $('#dg').datagrid('beginEdit', getRowIndex(target));
+        }
+        function deleterow1(target){
+            $.messager.confirm('确认','确定修改?',function(r){
+                if (r){
+                    $('#dg').datagrid('deleteRow', getRowIndex(target));
+                }
+            });
+        }
+
+        function saverow1(target){
+            $('#dg').datagrid('endEdit', getRowIndex(target));
+        }
+        function cancelrow1(target){
+            $('#dg').datagrid('cancelEdit', getRowIndex(target));
+        }
+        function insert1(){
+            var row = $('#dg').datagrid('getSelected');
+            if (row){
+                var index = $('#dg').datagrid('getRowIndex', row);
+            } else {
+                index = 0;
+            }
+            $('#dg').datagrid('insertRow', {
+                index: index,
+                row:{
+                    status:'p'
+                }
+            });
+
+            $('#dg').datagrid('selectRow',index);
+            $('#dg').datagrid('beginEdit',index);
+        }
+/*
+        $(function(){
+            $('#tf').datagrid({
+                title:'用户管理',
+                iconCls:'icon-edit',
+                width:"100%",
+                height:"auto",
+                singleSelect:true,
+                idField:'',
+                url:'js/shouji.json',
+                columns:[[
+                    {field:'id',title:'编号',width:"5%",editor:'textbox'},
+                    {field:'name',title:'用户名',width:"15%",editor:'textbox'},
+                    {field:'password',title:'密码',width:"15%",editor:'textbox'},
+                    {field:'class',title:'组名',width:"15%",editor:'textbox'},
+                    {field:'phone',title:'电话',width:"15%",editor:'numberbox'},
+                    {field:'device',title:'设备号',width:"15%",editor:'textbox'},
+                    {field:'action',title:'操作',width:"20%",align:'center',
+                        formatter:function(value,row,index){
+                            if (row.editing){
+                                var s = '<a href="#" onclick="saverow2(this)">保存</a> ';
+                                var c = '<a href="#" onclick="cancelrow2(this)">取消</a>';
+                                return s+c;
+                            } else {
+                                var e = '<a href="#" onclick="editrow2(this)">编辑</a> ';
+                                var d = '<a href="#" onclick="deleterow2(this)">删除</a>';
+                                return e+d;
+                            }
+                        }
+                    }
+
+                ]],
+                onBeforeEdit:function(index,row){
+                    row.editing = true;
+                    updateActions(index);
+                },
+                onAfterEdit:function(index,row){
+                    row.editing = false;
+                    updateActions(index);
+                },
+                onCancelEdit:function(index,row){
+                    row.editing = false;
+                    updateActions(index);
+                }
+            });
+        });
+
+        function updateActions2(index){
+            $('#tf').datagrid('updateRow',{
+                index: index,
+                row:{}
+            });
+        }
+        function getRowIndex2(target){
+            var tr = $(target).closest('tr.datagrid-row');
+            return parseInt(tr.attr('datagrid-row-index'));
+        }
+        function editrow2(target){
+            $('#tf').datagrid('beginEdit', getRowIndex(target));
+        }
+        function deleterow2(target){
+            $.messager.confirm('确认','确定修改?',function(r){
+                if (r){
+                    $('#tf').datagrid('deleteRow', getRowIndex(target));
+                }
+            });
+        }
+
+        function saverow2(target){
+            $('#tf').datagrid('endEdit', getRowIndex(target));
+        }
+        function cancelrow2(target){
+            $('#tf').datagrid('cancelEdit', getRowIndex(target));
+        }
+        function insert2(){
+            var row = $('#tf').datagrid('getSelected');
+            if (row){
+                var index = $('#tf').datagrid('getRowIndex', row);
+            } else {
+                index = 0;
+            }
+            $('#tf').datagrid('insertRow', {
+                index: index,
+                row:{
+                    status:'p'
+                }
+            });
+
+            $('#tf').datagrid('selectRow',index);
+            $('#tf').datagrid('beginEdit',index);
+        }
+        $(function(){
+            $('#tg').datagrid({
+                title:'用户管理',
+                iconCls:'icon-edit',
+                width:"100%",
+                height:"auto",
+                singleSelect:true,
+                idField:'',
+                url:'js/jinzhi.json',
+                columns:[[
+                    {field:'id',title:'编号',width:"5%",editor:'textbox'},
+                    {field:'name',title:'用户名',width:"15%",editor:'textbox'},
+                    {field:'password',title:'密码',width:"15%",editor:'textbox'},
+                    {field:'class',title:'组名',width:"15%",editor:'textbox'},
+                    {field:'phone',title:'电话',width:"15%",editor:'numberbox'},
+                    {field:'device',title:'设备号',width:"15%",editor:'textbox'},
+                    {field:'action',title:'操作',width:"20%",align:'center',
+                        formatter:function(value,row,index){
+                            if (row.editing){
+                                var s = '<a href="#" onclick="saverow3(this)">保存</a> ';
+                                var c = '<a href="#" onclick="cancelrow3(this)">取消</a>';
+                                return s+c;
+                            } else {
+                                var e = '<a href="#" onclick="editrow3(this)">编辑</a> ';
+                                var d = '<a href="#" onclick="deleterow3(this)">删除</a>';
+                                return e+d;
+                            }
+                        }
+                    }
+
+                ]],
+                onBeforeEdit:function(index,row){
+                    row.editing = true;
+                    updateActions(index);
+                },
+                onAfterEdit:function(index,row){
+                    row.editing = false;
+                    updateActions(index);
+                },
+                onCancelEdit:function(index,row){
+                    row.editing = false;
+                    updateActions(index);
+                }
+            });
+        });
+
+        function updateActions3(index){
+            $('#tg').datagrid('updateRow',{
+                index: index,
+                row:{}
+            });
+        }
+        function getRowIndex3(target){
+            var tr = $(target).closest('tr.datagrid-row');
+            return parseInt(tr.attr('datagrid-row-index'));
+        }
+        function editrow3(target){
+            $('#tg').datagrid('beginEdit', getRowIndex(target));
+        }
+        function deleterow3(target){
+            $.messager.confirm('确认','确定修改?',function(r){
+                if (r){
+                    $('#tg').datagrid('deleteRow', getRowIndex(target));
+                }
+            });
+        }
+
+        function saverow3(target){
+            $('#tg').datagrid('endEdit', getRowIndex(target));
+        }
+        function cancelrow3(target){
+            $('#tg').datagrid('cancelEdit', getRowIndex(target));
+        }
+        function insert3(){
+            var row = $('#tg').datagrid('getSelected');
+            if (row){
+                var index = $('#tg').datagrid('getRowIndex', row);
+            } else {
+                index = 0;
+            }
+            $('#tg').datagrid('insertRow', {
+                index: index,
+                row:{
+                    status:'p'
+                }
+            });
+
+            $('#tg').datagrid('selectRow',index);
+            $('#tg').datagrid('beginEdit',index);
+        }
+        $(function(){
+            $('#th').datagrid({
+                title:'用户管理',
+                iconCls:'icon-edit',
+                width:"100%",
+                height:"auto",
+                singleSelect:true,
+                idField:'',
+                url:'js/Class.json',
+                columns:[[
+                    {field:'id',title:'编号',width:"5%",editor:'textbox'},
+                    {field:'name',title:'用户名',width:"15%",editor:'textbox'},
+                    {field:'password',title:'密码',width:"15%",editor:'textbox'},
+                    {field:'class',title:'组名',width:"15%",editor:'textbox'},
+                    {field:'phone',title:'电话',width:"15%",editor:'numberbox'},
+                    {field:'device',title:'设备号',width:"15%",editor:'textbox'},
+                    {field:'action',title:'操作',width:"20%",align:'center',
+                        formatter:function(value,row,index){
+                            if (row.editing){
+                                var s = '<a href="#" onclick="saverow4(this)">保存</a> ';
+                                var c = '<a href="#" onclick="cancelrow4(this)">取消</a>';
+                                return s+c;
+                            } else {
+                                var e = '<a href="#" onclick="editrow4(this)">编辑</a> ';
+                                var d = '<a href="#" onclick="deleterow4(this)">删除</a>';
+                                return e+d;
+                            }
+                        }
+                    }
+
+                ]],
+                onBeforeEdit:function(index,row){
+                    row.editing = true;
+                    updateActions(index);
+                },
+                onAfterEdit:function(index,row){
+                    row.editing = false;
+                    updateActions(index);
+                },
+                onCancelEdit:function(index,row){
+                    row.editing = false;
+                    updateActions(index);
+                }
+            });
+        });
+
+        function updateActions4(index){
+            $('#th').datagrid('updateRow',{
+                index: index,
+                row:{}
+            });
+        }
+        function getRowIndex4(target){
+            var tr = $(target).closest('tr.datagrid-row');
+            return parseInt(tr.attr('datagrid-row-index'));
+        }
+        function editrow4(target){
+            $('#th').datagrid('beginEdit', getRowIndex(target));
+        }
+        function deleterow4(target){
+            $.messager.confirm('确认','确定修改?',function(r){
+                if (r){
+                    $('#th').datagrid('deleteRow', getRowIndex(target));
+                }
+            });
+        }
+
+        function saverow4(target){
+            $('#th').datagrid('endEdit', getRowIndex(target));
+        }
+        function cancelrow4(target){
+            $('#th').datagrid('cancelEdit', getRowIndex(target));
+        }
+        function insert4(){
+            var row = $('#th').datagrid('getSelected');
+            if (row){
+                var index = $('#th').datagrid('getRowIndex', row);
+            } else {
+                index = 0;
+            }
+            $('#th').datagrid('insertRow', {
+                index: index,
+                row:{
+                    status:'p'
+                }
+            });
+
+            $('#th').datagrid('selectRow',index);
+            $('#th').datagrid('beginEdit',index);
+        }
+        $(function(){
+            $('#tp').datagrid({
+                title:'用户管理',
+                iconCls:'icon-edit',
+                width:"100%",
+                height:"auto",
+                singleSelect:true,
+                idField:'',
+                url:'js/ceshi.json',
+                columns:[[
+                    {field:'id',title:'编号',width:"5%",editor:'textbox'},
+                    {field:'name',title:'用户名',width:"15%",editor:'textbox'},
+                    {field:'password',title:'密码',width:"15%",editor:'textbox'},
+                    {field:'class',title:'组名',width:"15%",editor:'textbox'},
+                    {field:'phone',title:'电话',width:"15%",editor:'numberbox'},
+                    {field:'device',title:'设备号',width:"15%",editor:'textbox'},
+                    {field:'action',title:'操作',width:"20%",align:'center',
+                        formatter:function(value,row,index){
+                            if (row.editing){
+                                var s = '<a href="#" onclick="saverow5(this)">保存</a> ';
+                                var c = '<a href="#" onclick="cancelrow5(this)">取消</a>';
+                                return s+c;
+                            } else {
+                                var e = '<a href="#" onclick="editrow5(this)">编辑</a> ';
+                                var d = '<a href="#" onclick="deleterow5(this)">删除</a>';
+                                return e+d;
+                            }
+                        }
+                    }
+
+                ]],
+                onBeforeEdit:function(index,row){
+                    row.editing = true;
+                    updateActions(index);
+                },
+                onAfterEdit:function(index,row){
+                    row.editing = false;
+                    updateActions(index);
+                },
+                onCancelEdit:function(index,row){
+                    row.editing = false;
+                    updateActions(index);
+                }
+            });
+        });
+
+        function updateActions5(index){
+            $('#tp').datagrid('updateRow',{
+                index: index,
+                row:{}
+            });
+        }
+        function getRowIndex5(target){
+            var tr = $(target).closest('tr.datagrid-row');
+            return parseInt(tr.attr('datagrid-row-index'));
+        }
+        function editrow5(target){
+            $('#tp').datagrid('beginEdit', getRowIndex(target));
+        }
+        function deleterow5(target){
+            $.messager.confirm('确认','确定修改?',function(r){
+                if (r){
+                    $('#tp').datagrid('deleteRow', getRowIndex(target));
+                }
+            });
+        }
+
+        function saverow5(target){
+            $('#tp').datagrid('endEdit', getRowIndex(target));
+        }
+        function cancelrow5(target){
+            $('#tp').datagrid('cancelEdit', getRowIndex(target));
+        }
+        function insert5(){
+            var row = $('#tp').datagrid('getSelected');
+            if (row){
+                var index = $('#tp').datagrid('getRowIndex', row);
+            } else {
+                index = 0;
+            }
+            $('#tp').datagrid('insertRow', {
+                index: index,
+                row:{
+                    status:'p'
+                }
+            });
+
+            $('#tp').datagrid('selectRow',index);
+            $('#tp').datagrid('beginEdit',index);
+        }
+*/
+
+    </script>
+
+</head>
+<body>
+
+<div id="tb" style="padding:3px">
+    <a href="#" class="easyui-linkbutton" plain="true" onclick="insert()">添加用户组</a>
+</div>
+<div id="tc" style="padding:3px">
+    <a href="#" class="easyui-linkbutton" plain="true" onclick="insert1()">添加用户</a>
+</div>
+<!--<div id="td" style="padding:3px">
+    <a href="#" class="easyui-linkbutton" plain="true" onclick="insert2()">添加用户</a>
+</div>
+<div id="te" style="padding:3px">
+    <a href="#" class="easyui-linkbutton" plain="true" onclick="insert3()">添加用户</a>
+</div>
+<div id="tr" style="padding:3px">
+    <a href="#" class="easyui-linkbutton" plain="true" onclick="insert4()">添加用户</a>
+</div>
+<div id="tj" style="padding:3px">
+    <a href="#" class="easyui-linkbutton" plain="true" onclick="insert5()">添加用户</a>
+</div>-->
+<div style="width: 38%;height: 100%;border: 1px solid black;position: absolute;">
+    <table id="tt" class="easyui-datagrid"
+            title="Searching" iconCls="icon-search" toolbar="#tb"
+            rownumbers="true" >
+
+    </table>
+</div>
+<div style="width: 60%;height: 40%;border: 1px solid black;position: absolute;right: 0;">
+<div style="width: 30%;height: 100%;display: inline-block;float: left">
+    <h2>用户组</h2>
+    <select class="easyui-combobox sele" name="state" style="width:80%">
+        <option value="AL" >手机用户</option>
+        <option value="AK" >管理端用户</option>
+        <option value="AZ" >禁止用户</option>
+        <option value="AR" >测试用户</option>
+    </select>
+</div>
+    <div style="width: 68%;height: 100%;border: 1px solid black;display: inline-block;float: right">
+        <form method="post" name="myform">
+            <table border="0" width="300">
+                <tr>
+                    <td width="40%">
+                        <select style="WIDTH:100%" multiple name="list1" size="12" ondblclick="moveOption(document.myform.list1, document.myform.list2)">
+                            <option value="管理端登录">管理端登录</option>
+                            <option value="用户登录">用户登录</option>
+                            <option value="增加设备">增加设备</option>
+                            <option value="删除设备">删除设备</option>
+                            <option value="查询GPS历史数据">查询GPS历史数据</option>
+                            <option value="查询设备警报信息">查询设备警报信息</option>
+                        </select>
+                    </td>
+                    <td width="20%" align="center">
+                        <input type="button" value="添加" onclick="moveOption(document.myform.list1, document.myform.list2)"><br/>
+                        <br/>
+                        <input type="button" value="删除" onclick="moveOption(document.myform.list2, document.myform.list1)">
+                    </td>
+                    <td width="40%">
+                        <select style="WIDTH:100%" multiple name="list2" size="12" ondblclick="moveOption(document.myform.list2, document.myform.list1)">
+                        </select>
+                    </td>
+
+                </tr>
+            </table>
+           <span style="position: absolute;bottom: 10%">已获取的权限：<textarea name="right" id="" cols="30" rows="3" style="vertical-align: middle"></textarea>
+               <!--<input type="text" name="right" size="80%"></span>-->
+               </span>
+        </form>
+    </div>
+</div>
+<div style="width: 60%;height: 58%;border: 1px solid black;position: absolute;right: 0;bottom: 0;">
+    <table id="dg" class="easyui-datagrid show"
+           title="Searching" iconCls="icon-search" toolbar="#tc"
+           rownumbers="true" >
+    </table>
+</div>
+<div style="width: 60%;height: 58%;border: 1px solid black;position: absolute;right: 0;bottom: 0;display: none">
+    <table id="tf" class="easyui-datagrid show"
+           title="Searching" iconCls="icon-search" toolbar="#td"
+           rownumbers="true" >
+    </table>
+</div>
+<!--<div style="width: 60%;height: 58%;border: 1px solid black;position: absolute;right: 0;bottom: 0;display: none">
+    <table id="tg" class="easyui-datagrid show"
+           title="Searching" iconCls="icon-search" toolbar="#te"
+           rownumbers="true" >
+    </table>
+</div>
+<div style="width: 60%;height: 58%;border: 1px solid black;position: absolute;right: 0;bottom: 0;display: none">
+    <table id="th" class="easyui-datagrid show"
+           title="Searching" iconCls="icon-search" toolbar="#tr"
+           rownumbers="true" >
+    </table>
+</div>
+<div style="width: 60%;height: 58%;border: 1px solid black;position: absolute;right: 0;bottom: 0;display: none">
+    <table id="tp" class="easyui-datagrid show"
+           title="Searching" iconCls="icon-search" toolbar="#tj"
+           rownumbers="true" >
+    </table>
+</div>-->
+<script language="JavaScript">
+    function moveOption(e1, e2){
+        try{
+            for(var i=0;i<e1.options.length;i++){
+                if(e1.options[i].selected){
+                    var e = e1.options[i];
+                    e2.options.add(new Option(e.text, e.value));
+                    e1.remove(i);
+                    ii=i-1
+                }
+            }
+            document.myform.right.value=getvalue(document.myform.list2);
+        }
+        catch(e){}
+    }
+    function getvalue(geto){
+        var allvalue = "";
+        for(var i=0;i<geto.options.length;i++){
+            allvalue +=geto.options[i].value + ",";
+        }
+        return allvalue;
+    }
+    /*(function($){
+        $.fn.selectTab = function(o){
+            var d = {
+                select:'.sele', //定义下拉对象
+                con:'.show'        //定义切换对象
+            };
+            var q = $.extend(d,q);
+            var $option = $(d.select).find('option');//遍历下拉对象下的option
+            for(var i = 0; i < $option.length; i++){
+                $option.eq(i).attr('i',i); //设置option 属性i从下标为0开始赋值
+            }
+            selectFn();
+            $(d.select).change(function(){
+                selectFn();
+            });
+            function selectFn(){
+                var selectedIndex = $(d.select).find('option:selected').attr('i'); //保存被选中的option的属性i的值
+                $(d.con).eq(selectedIndex).show().siblings(d.con).hide();       //显示对应显示的对象
+            }
+        }
+    })(jQuery);
+    $(function(){
+        $().selectTab();
+    })
+*/
+</script>
+</body>
+</html>
+
